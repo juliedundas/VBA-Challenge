@@ -23,7 +23,7 @@ Dim PercentChange As Double
 Dim TickerRow As Integer
 TickerRow = 2
 'Create for each statement to loop through all worksheets
-For Each ws In Worksheets
+For Each ws In ActiveWorkbook.Worksheets
     'Set a variable for the last row of the worksheet
     LastRow = ws.Cells(Rows.Count, "A").End(xlUp).Row
     ' Loop through all ticker symbols
@@ -59,17 +59,18 @@ For Each ws In Worksheets
         ' If the cell immediately following a row is the same ticker symbol...
         Else
             If (OpenPrice = 0) Then
-                OpenPrice = Cells(i, 3).Value
+                OpenPrice = ws.Cells(i, 3).Value
             End If
             ' Add to the volume total
-            Volume_Total = Volume_Total + Cells(i, 7).Value
+            Volume_Total = Volume_Total + ws.Cells(i, 7).Value
         End If
-        If ws.Cells(i, 9).Value > 0 Then
-            ws.Cells(i, 9).Interior.ColorIndex = 4
-        Else
+        If ws.Cells(i, 9).Value < 0 Then
             ws.Cells(i, 9).Interior.ColorIndex = 3
+        Else
+            ws.Cells(i, 9).Interior.ColorIndex = 4
         End If
-    Next i
+  Next i
 Next ws
 
 End Sub
+
